@@ -6,11 +6,33 @@ import { Meteors } from '@/components/ui/meteors';
 function MusicSchoolContactUs() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [formData,setFormData] = useState({email:"",message:""})
+  const [isLoading,setIsLoading] = useState(false)
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event: FormEvent<HTMLFormElement>) => {
+    
     event.preventDefault();
     console.log('Submitted:', { email, message });
+    setIsLoading(true);
+    const target = event.target as HTMLInputElement | HTMLTextAreaElement;
+    setFormData({...formData, [target.name]: target.value});
+    
+    const response = await fetch("api/send/",{
+        method:"Post",
+        headers: { 'Content-Type': 'application/json' },
+        body:JSON.stringify(formData),
+    })
+    console.log("respones form backend --->",response);
+    if(response.status === 200){
+        setIsLoading(false)
+        setFormData({email:"",message:""})
+    }
   };
+
+//   if)
+
+
+//   if(isLoading) return <p className='text-center text-gray-100'>Loading...</p>
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-12 pt-36 relative">
@@ -56,6 +78,9 @@ function MusicSchoolContactUs() {
             Send Message
           </button>
         </form>
+
+        {isLoading && <div className=' border-white p-2 rounded-md flex flex-col justify-center items-center mt-8'>Sendig Message...</div> }
+        
       </div>
     </div>
   );

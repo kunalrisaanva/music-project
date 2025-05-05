@@ -3,14 +3,21 @@ import Image from "next/image";
 import React from "react";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import courseData from "@/data/music.courses.json"
+import { redirect } from 'next/navigation'
 
 function page() {
+
+  
+  const sendtoYtFunction = () => {
+    redirect(`https://www.youtube.com/watch?v=_k9y0b771y8&list=PLJnlzWow0oXuva_mPIfxqae5i3SEFmGe-&ab_channel=VikrantBhardwaj`)
+  }
+
   return (
     <div className="min-h-screen bg-black py-12 pt-36">
         <h1 className="text-lg md:text-7xl text-center font-sans font-bold mb-8 text-white">All courses ({courseData.courses.length})</h1>  
-        <div className="flex flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center"   >
             {courseData.courses.map((course) => (
-                <CardContainer key={course.id} className="inter-var m-4">
+                <CardContainer key={course.id} className="inter-var m-4" >
                 <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
                   <CardItem
                     translateZ="50"
@@ -39,6 +46,7 @@ function page() {
                       translateZ={20}
                       as="button"
                       className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+                      onClick={() => sendtoYtFunction()}
                     >
                       Try now →
                     </CardItem>
